@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sarad & Namuna Wedding</title>
+    <!-- Google Fonts for a modern, unique look -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Poppins:wght@100;200;300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Tailwind CSS CDN for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #0c0a09; /* Stone black */
+            color: #d1d5db; /* Light gray */
+            scroll-behavior: smooth;
+        }
+        h1, h2, h3, h4 {
+            font-family: 'Cormorant Garamond', serif;
+        }
+        .scroll-snap-container {
+            scroll-snap-type: y mandatory;
+            overflow-y: scroll;
+            height: 100vh;
+        }
+        .scroll-snap-section {
+            scroll-snap-align: start;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            text-align: center;
+            position: relative;
+        }
+        .hero-section {
+            /* Replace this URL with the direct link to your online image! */
+            background-image: url('https://scontent.ftol2-1.fna.fbcdn.net/v/t39.30808-6/473589132_509156978849338_1498768219053235707_n.jpg?_nc_cat=108&ccb=1-7&_nc_sid=cc71e4&_nc_ohc=SljwsOEW6kgQ7kNvwE9hvrI&_nc_oc=AdnvhWEEOA5qltygYa7N78bgf-woRspB6VZ2RQ5Zfk93Z4t6o3it5k9kHdYjT42oJ4M&_nc_zt=23&_nc_ht=scontent.ftol2-1.fna&_nc_gid=bT4bWRVSakLMawKjmGM6vQ&oh=00_AfXoSpnjCdqUDEgSUuVuh0aMpHWKFZP1tPVl5nWlivXRQw&oe=68AABB4B');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed; /* Creates a subtle parallax effect */
+        }
+        .gold-accent {
+            color: #d4af37; /* Gold */
+        }
+        .bg-opacity-70 {
+            background-color: rgba(12, 10, 9, 0.7);
+        }
+        .fade-in {
+            animation: fadeIn 2s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        /* Custom styles for the gallery hover effect */
+        .gallery-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: 0.75rem; /* rounded-xl */
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+            cursor: pointer;
+        }
+        .gallery-item:hover {
+            transform: scale(1.05); /* Slightly smaller zoom on hover to avoid jumping */
+            z-index: 20;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        /* Styles for the full-screen modal */
+        #image-modal {
+            display: none;
+            position: fixed;
+            z-index: 50;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            justify-content: center;
+            align-items: center;
+            animation: modalFadeIn 0.3s ease-in-out;
+        }
+        #image-modal.active {
+            display: flex;
+        }
+        #modal-content {
+            max-width: 90%;
+            max-height: 90%;
+            object-fit: contain;
+            border-radius: 0.75rem;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+            transition: transform 0.3s ease-in-out;
+            transform: scale(0.9);
+        }
+        #image-modal.active #modal-content {
+            transform: scale(1);
+        }
+        .modal-close {
+            position: absolute;
+            top: 20px;
+            right: 35px;
+            color: #d1d5db;
+            font-size: 40px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+        .modal-close:hover,
+        .modal-close:focus {
+            color: #fff;
+            text-decoration: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body class="antialiased pt-[5rem]">
+    <!-- User ID Display for collaborative environment -->
+    <div id="user-id-display" class="fixed bottom-4 right-4 z-50 text-xs text-gray-400"></div>
+
+    <!-- Fixed Navigation Bar -->
+    <nav class="fixed top-0 left-0 w-full z-20 bg-stone-950 bg-opacity-80 backdrop-blur-sm transition-colors duration-300">
+        <div class="container mx-auto px-4 md:px-8 py-4 flex justify-center space-x-4 md:space-x-8 text-sm md:text-base font-medium">
+            <a href="#story" class="text-gray-300 hover:text-gold-accent transition-colors duration-200">Our Story</a>
+            <a href="#events" class="text-gray-300 hover:text-gold-accent transition-colors duration-200">Events</a>
+            <a href="#rsvp" class="text-gray-300 hover:text-gold-accent transition-colors duration-200">RSVP</a>
+            <a href="#gallery" class="text-gray-300 hover:text-gold-accent transition-colors duration-200">Gallery</a>
+            <a href="#faq" class="text-gray-300 hover:text-gold-accent transition-colors duration-200">FAQ</a>
+        </div>
+    </nav>
+
+    <div class="scroll-snap-container">
+
+        <!-- Hero Section -->
+        <header class="scroll-snap-section hero-section text-white">
+            <div class="bg-opacity-70 p-8 md:p-12 rounded-lg shadow-2xl fade-in max-w-lg mx-auto border-t-2 border-b-2 border-gold-accent">
+                <p class="text-xl md:text-2xl font-light mb-2 tracking-wide">The union of</p>
+                <h1 class="text-5xl md:text-8xl font-bold tracking-tight mb-4">Sarad <span class="gold-accent">&</span> Namuna</h1>
+                <p class="text-2xl md:text-3xl font-light">Dec 19, 2025</p>
+                <p class="text-base font-light mt-2">Swipe or scroll down to begin</p>
+            </div>
+        </header>
+
+        <!-- Our Story Section -->
+        <section id="story" class="scroll-snap-section bg-gray-950 text-gray-200">
+            <div class="container mx-auto px-4 md:px-8 max-w-4xl">
+                <h2 class="text-5xl md:text-6xl mb-12 gold-accent">Our Story</h2>
+                
+                <!-- First part of the story with image on the right -->
+                <div class="flex flex-col md:flex-row items-center gap-8 mb-12">
+                    <p class="text-lg md:text-xl leading-relaxed text-left md:text-justify md:w-1/2">
+                        It all started with a simple 'Hello' in a bustling coffee shop. A single conversation led to countless adventures, shared dreams, and a bond that grew stronger with every passing day. Our journey has been a testament to love's unexpected beginnings, and we can't wait to share our next chapter with all of you who have supported us along the way. We believe that every moment we have spent together has shaped who we are, and we are grateful for all the memories we've made.
+                    </p>
+                    <img src="img/namuna.png" alt="Our Story Photo 1" class="w-full md:w-1/2 rounded-xl shadow-lg transition-transform duration-300 hover:scale-105">
+                </div>
+
+                <!-- Second part of the story with image on the left -->
+                <div class="flex flex-col md:flex-row items-center gap-8">
+                    <img src="https://placehold.co/500x500/1e1e1e/d1d5db?text=Story+Photo+2" alt="Our Story Photo 2" class="w-full md:w-1/2 rounded-xl shadow-lg transition-transform duration-300 hover:scale-105 order-last md:order-first">
+                    <p class="text-lg md:text-xl leading-relaxed text-left md:text-justify md:w-1/2">
+                        Our love story is built on laughter, trust, and a deep appreciation for the little things. From our late-night talks to our weekend road trips, we have discovered that the most beautiful moments are often the simplest ones. We are so excited to continue this adventure as we step into our new life together, and we are so blessed to have you all with us to celebrate.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Events Section -->
+        <section id="events" class="scroll-snap-section bg-gray-900 text-gray-200">
+            <div class="container mx-auto px-4 md:px-8 max-w-4xl">
+                <h2 class="text-5xl md:text-6xl mb-12 gold-accent">The Ceremony</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16">
+                    <div class="bg-gray-800 p-8 rounded-xl shadow-lg border-2 border-gray-700">
+                        <h3 class="text-3xl font-semibold mb-4 text-white">Ceremony</h3>
+                        <p class="text-xl mb-2 font-light">1:00 PM</p>
+                        <p class="text-lg font-light mb-4">Hindu Temple of Toledo</p>
+                        <p class="text-sm text-gray-400">123 Event Lane, Sylvenia, OH 43617</p>
+                    </div>
+                    <div class="bg-gray-800 p-8 rounded-xl shadow-lg border-2 border-gray-700">
+                        <h3 class="text-3xl font-semibold mb-4 text-white">Reception</h3>
+                        <p class="text-xl mb-2 font-light">5:00 PM</p>
+                        <p class="text-lg font-light mb-4">The Grand Ballroom</p>
+                        <p class="text-sm text-gray-400">456 Celebration Drive, Toledo, OH 43615</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- RSVP Section with Firestore -->
+        <section id="rsvp" class="scroll-snap-section bg-gray-950 text-gray-200">
+            <div class="container mx-auto px-4 md:px-8 max-w-2xl">
+                <h2 class="text-5xl md:text-6xl mb-6 gold-accent">RSVP</h2>
+                <p class="text-lg text-gray-400 mb-8">
+                    Please kindly respond by **July 19, 2025**.
+                </p>
+                <div class="bg-gray-800 p-8 rounded-xl shadow-inner border-2 border-gray-700">
+                    <form id="rsvp-form" class="space-y-6 text-left">
+                        <div>
+                            <label for="name" class="block text-lg font-medium mb-1 text-white">Full Name</label>
+                            <input type="text" id="name" name="name" required class="w-full px-4 py-3 rounded-lg bg-gray-700 text-white border border-gray-600 focus:border-gold-accent focus:ring-gold-accent">
+                        </div>
+                        <div>
+                            <label for="plusOne" class="block text-lg font-medium mb-1 text-white">Plus One (Optional)</label>
+                            <input type="text" id="plusOne" name="plusOne" class="w-full px-4 py-3 rounded-lg bg-gray-700 text-white border border-gray-600 focus:border-gold-accent focus:ring-gold-accent">
+                        </div>
+                        <div>
+                            <label for="dietary" class="block text-lg font-medium mb-1 text-white">Dietary Restrictions (Optional)</label>
+                            <textarea id="dietary" name="dietary" rows="3" class="w-full px-4 py-3 rounded-lg bg-gray-700 text-white border border-gray-600 focus:border-gold-accent focus:ring-gold-accent"></textarea>
+                        </div>
+                        <button type="submit" id="submit-button" class="mt-8 w-full py-4 bg-gold-accent text-gray-900 font-semibold rounded-lg shadow-lg hover:bg-amber-300 transition-colors duration-300 flex items-center justify-center">
+                            <span id="button-text">Submit RSVP</span>
+                            <div id="loading-spinner" class="hidden animate-spin rounded-full h-6 w-6 border-b-2 border-gray-900 ml-2"></div>
+                        </button>
+                    </form>
+                    <div id="rsvp-message" class="mt-4 text-center font-semibold text-gray-300"></div>
+                </div>
+                <div class="mt-8 text-lg font-medium">
+                    <p class="text-gray-400">Total RSVPs: <span id="rsvp-count" class="font-bold text-white">0</span></p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Gallery Section -->
+        <section id="gallery" class="scroll-snap-section bg-gray-900 text-gray-200">
+            <div class="container mx-auto px-4 md:px-8">
+                <h2 class="text-5xl md:text-6xl mb-12 gold-accent">Gallery</h2>
+                <!-- Increased gap between photos for better spacing -->
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12">
+                    <div class="gallery-item">
+                        <img src="https://scontent.ftol2-1.fna.fbcdn.net/v/t39.30808-6/468308705_17917671969001965_3858788495486769060_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=127cfc&_nc_ohc=HRGk6hmNyygQ7kNvwHCnzy0&_nc_oc=Admuy-ZPm3AIjdu33SziuKn4vOoqOUkhhHb5UmvYSR03iDyJDK4YNWk3rXrX8kavs6k&_nc_zt=23&_nc_ht=scontent.ftol2-1.fna&_nc_gid=vsGc3Vh_n8ozu-6TFwPJvQ&oh=00_AfXMCsIGgt3n0tc1t3sA3AmTOdF2XIlNOx0BKR1R_AIRaw&oe=68AA8A53" alt="Wedding Photo 1" class="w-full h-full object-cover">
+                    </div>
+                    <div class="gallery-item">
+                        <img src="https://scontent.ftol2-1.fna.fbcdn.net/v/t39.30808-6/474736694_516468244784878_430969810829308765_n.jpg?_nc_cat=108&ccb=1-7&_nc_sid=833d8c&_nc_ohc=BhPSMz71e0YQ7kNvwFtjmT-&_nc_oc=AdnfXYVztCUIilAFgfZMbmY8Wti4W2hXEPnOnLoY0wPnUv5gHNHRXIverED85F3Hfls&_nc_zt=23&_nc_ht=scontent.ftol2-1.fna&_nc_gid=2fuBYYCsahr9qR1BSWV72A&oh=00_AfX5SHYrLDauZAFXEzmiCwK8_s3tjoAkGHOp8cQeFHmCKQ&oe=68AABC37" alt="Wedding Photo 2" class="w-full h-full object-cover">
+                    </div>
+                    <div class="gallery-item">
+                        <img src="https://scontent.ftol2-1.fna.fbcdn.net/v/t39.30808-6/468172267_17917665543001965_3849994994698053154_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=127cfc&_nc_ohc=2hUv_MkrkBEQ7kNvwGhOmWB&_nc_oc=AdngmHySc8hyl-iZbeuF7KUxr2eu8tru_9PSij8-cR4oUnxFtINXFT9dmN-6nxpsMM0&_nc_zt=23&_nc_ht=scontent.ftol2-1.fna&_nc_gid=_wuGMpOd9vEFgYLBMVYmqw&oh=00_AfUPPZVWGhCIKl_BvOOlWGGB4PQqjb6u1zLIE4ueJH2zRg&oe=68AAB9B2" alt="Wedding Photo 3" class="w-full h-full object-cover">
+                    </div>
+                    <div class="gallery-item">
+                        <img src="https://scontent.ftol2-1.fna.fbcdn.net/v/t39.30808-6/518198111_10171450619650214_4774008232972113684_n.jpg?_nc_cat=111&ccb=1-7&_nc_sid=f727a1&_nc_ohc=BaABNfk2Ry4Q7kNvwEvWcE_&_nc_oc=AdlsJyxZyqWZYfyt_wvAj-Lj7VSCCfyaZKRQkolk2cHwDJl_nDpOgAFIJVqgnPcf6RI&_nc_zt=23&_nc_ht=scontent.ftol2-1.fna&_nc_gid=ni7jkAJQByKpT7Bxlxm2-A&oh=00_AfWSiQg2056nuhh92-GvQmYNa_EaK7eHoNRne56TI5lKxw&oe=68AA8E49" alt="Wedding Photo 4" class="w-full h-full object-cover">
+                    </div>
+                    <div class="gallery-item">
+                        <img src="https://scontent.ftol2-1.fna.fbcdn.net/v/t39.30808-6/471318455_492248263873543_8939745759815136120_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=127cfc&_nc_ohc=WDLxhx-JDGAQ7kNvwGNpfml&_nc_oc=Adnxp-yLtqVbadc12d2UY3mjxR3VpNz8Z_pYDUZVgU-5zcNFUYlsUy_w1ZmEyWp8V4Y&_nc_zt=23&_nc_ht=scontent.ftol2-1.fna&_nc_gid=XGfXvm2n_NlgkVvupCLC_w&oh=00_AfXHNmmQ1Xs5UnIoKVhaVRnuug1GLrA8Rnln83GOnC-X5Q&oe=68AAAA8F" alt="Wedding Photo 4" class="w-full h-full object-cover">
+                    </div>
+                    <div class="gallery-item">
+                        <img src="https://scontent.ftol2-1.fna.fbcdn.net/v/t39.30808-6/470861618_492248177206885_6441236958721352906_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=127cfc&_nc_ohc=1wqDUDNXpp8Q7kNvwELU9ud&_nc_oc=Admv1y0yvWVNGRYK5yZv7L-LS5-h9NftYeJJgNgK21vwkvM7KqekPxqktsCG-gfXRP0&_nc_zt=23&_nc_ht=scontent.ftol2-1.fna&_nc_gid=0X5ZDp57gmJPPEdTB-ndwA&oh=00_AfURaW_JY9NbqASvhkjwTiIzV9113d6JYP2NIW7l09GKUQ&oe=68AAB312" alt="Wedding Photo 4" class="w-full h-full object-cover">
+                    </div>
+                    <div class="gallery-item">
+                        <img src="https://scontent.ftol2-1.fna.fbcdn.net/v/t39.30808-6/468202863_17917665396001965_3671455544782075777_n.jpg?_nc_cat=107&ccb=1-7&_nc_sid=127cfc&_nc_ohc=m8eawltBNssQ7kNvwE6EeIe&_nc_oc=Adka8AVqpj63qZp2-CHXYmG2uY0t4rqYmfQg6cqQLEeQQE8aCOQxePvKOu3bEm1gbYE&_nc_zt=23&_nc_ht=scontent.ftol2-1.fna&_nc_gid=pTWffvwp5B9SzaJ9yp16Dg&oh=00_AfU7YtkSn00vmQR1ygwc22Ea8WQ2y5io1elzbk1E4jxYnw&oe=68AAABE8" alt="Wedding Photo 4" class="w-full h-full object-cover">
+                    </div>
+                    <div class="gallery-item">
+                        <img src="https://scontent.ftol2-1.fna.fbcdn.net/v/t39.30808-6/480667895_122246725580009946_5636880418024310217_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=21S393vfLZ8Q7kNvwF-7Kah&_nc_oc=AdnvxpVoRdrjWBH4FfVpKSsFdPFnmtByGNWOSMvCYpvTOOQ0KL7iHeBNMdwOjQ9to_o&_nc_zt=23&_nc_ht=scontent.ftol2-1.fna&_nc_gid=RNy0v52HcCMkmZNSthF4Sg&oh=00_AfUbzwCvZSzVhozRSc55tP0gDui0Th5Q-fzkoYE-t0616w&oe=68AA9CA5" alt="Wedding Photo 4" class="w-full h-full object-cover">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FAQ Section -->
+        <section id="faq" class="scroll-snap-section bg-gray-950 text-gray-200">
+            <div class="container mx-auto px-4 md:px-8 max-w-3xl">
+                <h2 class="text-5xl md:text-6xl mb-12 gold-accent">Questions?</h2>
+                <div id="faq-accordion" class="space-y-4 text-left">
+                    <div class="rounded-lg shadow-md overflow-hidden bg-gray-800">
+                        <div class="p-4 cursor-pointer flex justify-between items-center bg-gray-800 hover:bg-gray-700 transition-colors duration-200 font-semibold text-white" onclick="toggleAccordion('faq-1')">
+                            <span>What is the dress code?</span>
+                            <span id="icon-faq-1" class="transition-transform duration-200 transform rotate-0 text-gold-accent">+</span>
+                        </div>
+                        <div id="content-faq-1" class="p-4 bg-gray-900 hidden">
+                            The dress code is cocktail attire. We want you to feel comfortable and stylish!
+                        </div>
+                    </div>
+                    <div class="rounded-lg shadow-md overflow-hidden bg-gray-800">
+                        <div class="p-4 cursor-pointer flex justify-between items-center bg-gray-800 hover:bg-gray-700 transition-colors duration-200 font-semibold text-white" onclick="toggleAccordion('faq-2')">
+                            <span>Can I bring a plus-one?</span>
+                            <span id="icon-faq-2" class="transition-transform duration-200 transform rotate-0 text-gold-accent">+</span>
+                        </div>
+                        <div id="content-faq-2" class="p-4 bg-gray-900 hidden">
+                            Plus-ones are listed on your invitation. If your invitation doesn't include a guest's name, please RSVP for only yourself.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- Full-screen modal for viewing gallery images -->
+    <div id="image-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black bg-opacity-90">
+        <span class="modal-close" id="modal-close">&times;</span>
+        <img id="modal-content" class="rounded-xl max-w-full max-h-[90%] transition-transform duration-300 transform scale-90" src="">
+    </div>
+
+    <!-- Firebase SDK Scripts -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, addDoc, onSnapshot, collection } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        // Constants and global variables for Firebase
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+        const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {};
+        const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
+
+        let db, auth;
+
+        // Message display function
+        function displayMessage(message, type = 'success') {
+            const rsvpMessage = document.getElementById('rsvp-message');
+            rsvpMessage.textContent = message;
+            if (type === 'success') {
+                rsvpMessage.className = 'mt-4 text-center font-semibold text-green-400';
+            } else {
+                rsvpMessage.className = 'mt-4 text-center font-semibold text-red-400';
+            }
+        }
+
+        // Initialize Firebase and Auth
+        const initFirebase = async () => {
+            try {
+                const app = initializeApp(firebaseConfig);
+                auth = getAuth(app);
+                db = getFirestore(app);
+
+                // Sign in with custom token or anonymously if not available
+                if (initialAuthToken) {
+                    await signInWithCustomToken(auth, initialAuthToken);
+                } else {
+                    await signInAnonymously(auth);
+                }
+
+                // Listen for auth state changes and update UI
+                onAuthStateChanged(auth, (user) => {
+                    if (user) {
+                        const userId = user.uid;
+                        document.getElementById('user-id-display').textContent = `User ID: ${userId}`;
+                        console.log("User authenticated with UID:", userId);
+                        setupRsvpListener();
+                    } else {
+                        console.log("No user is signed in.");
+                    }
+                });
+
+            } catch (error) {
+                console.error("Error initializing Firebase or signing in:", error);
+                displayMessage('An error occurred. Please try again later.', 'error');
+            }
+        };
+
+        // Set up real-time listener for RSVP count
+        const setupRsvpListener = () => {
+            if (!db) return;
+
+            const rsvpCountElement = document.getElementById('rsvp-count');
+            const rsvpCollectionPath = `/artifacts/${appId}/public/data/rsvps`;
+
+            try {
+                const rsvpCollectionRef = collection(db, rsvpCollectionPath);
+                onSnapshot(rsvpCollectionRef, (snapshot) => {
+                    const count = snapshot.size;
+                    rsvpCountElement.textContent = count;
+                }, (error) => {
+                    console.error("Error listening to RSVP count:", error);
+                });
+            } catch (error) {
+                console.error("Error setting up RSVP listener:", error);
+            }
+        };
+
+        // Handle form submission
+        const rsvpForm = document.getElementById('rsvp-form');
+        const submitButton = document.getElementById('submit-button');
+        const buttonText = document.getElementById('button-text');
+        const loadingSpinner = document.getElementById('loading-spinner');
+
+        rsvpForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            // Show loading state
+            submitButton.disabled = true;
+            buttonText.classList.add('hidden');
+            loadingSpinner.classList.remove('hidden');
+            displayMessage('', 'success'); // Clear previous messages
+
+            const formData = new FormData(rsvpForm);
+            const data = {
+                name: formData.get('name'),
+                plusOne: formData.get('plusOne') || 'None',
+                dietary: formData.get('dietary') || 'None',
+                timestamp: new Date()
+            };
+
+            const rsvpCollectionPath = `/artifacts/${appId}/public/data/rsvps`;
+
+            try {
+                if (!db || !auth.currentUser) {
+                    throw new Error("Firebase not initialized or user not authenticated.");
+                }
+                await addDoc(collection(db, rsvpCollectionPath), data);
+
+                displayMessage('Thank you for your RSVP!', 'success');
+                rsvpForm.reset(); // Reset form on success
+            } catch (error) {
+                console.error("Error submitting RSVP:", error);
+                displayMessage('Failed to submit RSVP. Please try again.', 'error');
+            } finally {
+                // Hide loading state
+                submitButton.disabled = false;
+                buttonText.classList.remove('hidden');
+                loadingSpinner.classList.add('hidden');
+            }
+        });
+
+        // Initialize the app on window load
+        window.onload = function() {
+            initFirebase();
+        };
+
+        // Simple accordion logic
+        window.toggleAccordion = function(id) {
+            const content = document.getElementById(`content-${id}`);
+            const icon = document.getElementById(`icon-${id}`);
+            if (content.classList.contains('hidden')) {
+                content.classList.remove('hidden');
+                icon.classList.add('rotate-45');
+            } else {
+                content.classList.add('hidden');
+                icon.classList.remove('rotate-45');
+            }
+        }
+    </script>
+
+    <!-- New Script for Gallery Modal -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const modal = document.getElementById('image-modal');
+            const modalContent = document.getElementById('modal-content');
+            const galleryItems = document.querySelectorAll('.gallery-item img');
+            const modalClose = document.getElementById('modal-close');
+
+            // Open the modal when a gallery image is clicked
+            galleryItems.forEach(item => {
+                item.addEventListener('click', () => {
+                    modal.classList.add('active');
+                    modalContent.src = item.src;
+                    document.body.style.overflow = 'hidden'; // Prevents scrolling behind the modal
+                });
+            });
+
+            // Close the modal when the close button is clicked
+            modalClose.addEventListener('click', () => {
+                modal.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            });
+
+            // Close the modal when the user clicks outside the image
+            modal.addEventListener('click', (e) => {
+                if (e.target.id === 'image-modal' || e.target.id === 'modal-content') {
+                    modal.classList.remove('active');
+                    document.body.style.overflow = 'auto';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
