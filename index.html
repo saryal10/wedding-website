@@ -36,15 +36,13 @@
             position: relative;
         }
         .hero-section {
-            /* The main fix for mobile viewing. */
-            /* We use 'contain' to ensure the entire image is visible without cropping. */
-            /* 'no-repeat' prevents the image from tiling if it's smaller than the screen. */
-            /* We have removed 'background-attachment: fixed;' as it often breaks on mobile. */
+            /* The fix for the background image. */
+            /* We use 'cover' to ensure the image scales to cover the entire area. */
             background-image: url('https://scontent.ftol2-1.fna.fbcdn.net/v/t39.30808-6/473589132_509156978849338_1498768219053235707_n.jpg?_nc_cat=108&ccb=1-7&_nc_sid=cc71e4&_nc_ohc=SljwsOEW6kgQ7kNvwE9hvrI&_nc_oc=AdnvhWEEOA5qltygYa7N78bgf-woRspB6VZ2RQ5Zfk93Z4t6o3it5k9kHdYjT42oJ4M&_nc_zt=23&_nc_ht=scontent.ftol2-1.fna&_nc_gid=bT4bWRVSakLMawKjmGM6vQ&oh=00_AfXoSpnjCdqUDEgSUuVuh0aMpHWKFZP1tPVl5nWlivXRQw&oe=68AABB4B');
-            background-size: contain;
+            background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
-            background-color: #0c0a09; /* Fallback color for empty spaces */
+            background-color: #0c0a09; /* Fallback color */
         }
         .gold-accent {
             color: #d4af37; /* Gold */
@@ -232,7 +230,7 @@
                 <h2 class="text-5xl md:text-6xl mb-12 gold-accent">Gallery</h2>
                 <!-- Increased gap between photos for better spacing -->
                 <div class="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12">
-                    <div class="gallery-item">
+                  <div class="gallery-item">
                         <img src="https://scontent.ftol2-1.fna.fbcdn.net/v/t39.30808-6/468308705_17917671969001965_3858788495486769060_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=127cfc&_nc_ohc=HRGk6hmNyygQ7kNvwHCnzy0&_nc_oc=Admuy-ZPm3AIjdu33SziuKn4vOoqOUkhhHb5UmvYSR03iDyJDK4YNWk3rXrX8kavs6k&_nc_zt=23&_nc_ht=scontent.ftol2-1.fna&_nc_gid=vsGc3Vh_n8ozu-6TFwPJvQ&oh=00_AfXMCsIGgt3n0tc1t3sA3AmTOdF2XIlNOx0BKR1R_AIRaw&oe=68AA8A53" alt="Wedding Photo 1" class="w-full h-full object-cover">
                     </div>
                     <div class="gallery-item">
@@ -255,7 +253,7 @@
                     </div>
                     <div class="gallery-item">
                         <img src="https://scontent.ftol2-1.fna.fbcdn.net/v/t39.30808-6/480667895_122246725580009946_5636880418024310217_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=21S393vfLZ8Q7kNvwF-7Kah&_nc_oc=AdnvxpVoRdrjWBH4FfVpKSsFdPFnmtByGNWOSMvCYpvTOOQ0KL7iHeBNMdwOjQ9to_o&_nc_zt=23&_nc_ht=scontent.ftol2-1.fna&_nc_gid=RNy0v52HcCMkmZNSthF4Sg&oh=00_AfUbzwCvZSzVhozRSc55tP0gDui0Th5Q-fzkoYE-t0616w&oe=68AA9CA5" alt="Wedding Photo 4" class="w-full h-full object-cover">
-                    </div>
+                    </div> 
                 </div>
             </div>
         </section>
@@ -277,6 +275,79 @@
                     <div class="rounded-lg shadow-md overflow-hidden bg-gray-800">
                         <div class="p-4 cursor-pointer flex justify-between items-center bg-gray-800 hover:bg-gray-700 transition-colors duration-200 font-semibold text-white" onclick="toggleAccordion('faq-2')">
                             <span>Can I bring a plus-one?</span>
+                            <span id="icon-faq-2" class="transition-transform duration-200 transform rotate-0 text-gold-accent">+</span>
+                        </div>
+                        <div id="content-faq-2" class="p-4 bg-gray-900 hidden">
+                            Plus-ones are listed on your invitation. If your invitation doesn't include a guest's name, please RSVP for only yourself.
+                        </div>
+                    </div>
+
+                     <div class="rounded-lg shadow-md overflow-hidden bg-gray-800">
+                        <div class="p-4 cursor-pointer flex justify-between items-center bg-gray-800 hover:bg-gray-700 transition-colors duration-200 font-semibold text-white" onclick="toggleAccordion('faq-2')">
+                            <span>Is is an open bar?</span>
+                            <span id="icon-faq-2" class="transition-transform duration-200 transform rotate-0 text-gold-accent">+</span>
+                        </div>
+                        <div id="content-faq-2" class="p-4 bg-gray-900 hidden">
+                            Plus-ones are listed on your invitation. If your invitation doesn't include a guest's name, please RSVP for only yourself.
+                        </div>
+                    </div>
+                     <div class="rounded-lg shadow-md overflow-hidden bg-gray-800">
+                        <div class="p-4 cursor-pointer flex justify-between items-center bg-gray-800 hover:bg-gray-700 transition-colors duration-200 font-semibold text-white" onclick="toggleAccordion('faq-2')">
+                            <span>Who to reach out if I have any questions or concern?</span>
+                            <span id="icon-faq-2" class="transition-transform duration-200 transform rotate-0 text-gold-accent">+</span>
+                        </div>
+                        <div id="content-faq-2" class="p-4 bg-gray-900 hidden">
+                            Plus-ones are listed on your invitation. If your invitation doesn't include a guest's name, please RSVP for only yourself.
+                        </div>
+                    </div>
+                     <div class="rounded-lg shadow-md overflow-hidden bg-gray-800">
+                        <div class="p-4 cursor-pointer flex justify-between items-center bg-gray-800 hover:bg-gray-700 transition-colors duration-200 font-semibold text-white" onclick="toggleAccordion('faq-2')">
+                            <span>About location and venue</span>
+                            <span id="icon-faq-2" class="transition-transform duration-200 transform rotate-0 text-gold-accent">+</span>
+                        </div>
+                        <div id="content-faq-2" class="p-4 bg-gray-900 hidden">
+                            Plus-ones are listed on your invitation. If your invitation doesn't include a guest's name, please RSVP for only yourself.
+                        </div>
+                    </div>
+                     <div class="rounded-lg shadow-md overflow-hidden bg-gray-800">
+                        <div class="p-4 cursor-pointer flex justify-between items-center bg-gray-800 hover:bg-gray-700 transition-colors duration-200 font-semibold text-white" onclick="toggleAccordion('faq-2')">
+                            <span>Why are you getting married?</span>
+                            <span id="icon-faq-2" class="transition-transform duration-200 transform rotate-0 text-gold-accent">+</span>
+                        </div>
+                        <div id="content-faq-2" class="p-4 bg-gray-900 hidden">
+                            Plus-ones are listed on your invitation. If your invitation doesn't include a guest's name, please RSVP for only yourself.
+                        </div>
+                    </div>
+                     <div class="rounded-lg shadow-md overflow-hidden bg-gray-800">
+                        <div class="p-4 cursor-pointer flex justify-between items-center bg-gray-800 hover:bg-gray-700 transition-colors duration-200 font-semibold text-white" onclick="toggleAccordion('faq-2')">
+                            <span>Can I view the invitee list?</span>
+                            <span id="icon-faq-2" class="transition-transform duration-200 transform rotate-0 text-gold-accent">+</span>
+                        </div>
+                        <div id="content-faq-2" class="p-4 bg-gray-900 hidden">
+                            Plus-ones are listed on your invitation. If your invitation doesn't include a guest's name, please RSVP for only yourself.
+                        </div>
+                    </div>
+                     <div class="rounded-lg shadow-md overflow-hidden bg-gray-800">
+                        <div class="p-4 cursor-pointer flex justify-between items-center bg-gray-800 hover:bg-gray-700 transition-colors duration-200 font-semibold text-white" onclick="toggleAccordion('faq-2')">
+                            <span>Is there a seating assignment in the reception?</span>
+                            <span id="icon-faq-2" class="transition-transform duration-200 transform rotate-0 text-gold-accent">+</span>
+                        </div>
+                        <div id="content-faq-2" class="p-4 bg-gray-900 hidden">
+                            Plus-ones are listed on your invitation. If your invitation doesn't include a guest's name, please RSVP for only yourself.
+                        </div>
+                    </div>
+                     <div class="rounded-lg shadow-md overflow-hidden bg-gray-800">
+                        <div class="p-4 cursor-pointer flex justify-between items-center bg-gray-800 hover:bg-gray-700 transition-colors duration-200 font-semibold text-white" onclick="toggleAccordion('faq-2')">
+                            <span>Is gifts allowed? or is there a registery</span>
+                            <span id="icon-faq-2" class="transition-transform duration-200 transform rotate-0 text-gold-accent">+</span>
+                        </div>
+                        <div id="content-faq-2" class="p-4 bg-gray-900 hidden">
+                            Plus-ones are listed on your invitation. If your invitation doesn't include a guest's name, please RSVP for only yourself.
+                        </div>
+                    </div>
+                     <div class="rounded-lg shadow-md overflow-hidden bg-gray-800">
+                        <div class="p-4 cursor-pointer flex justify-between items-center bg-gray-800 hover:bg-gray-700 transition-colors duration-200 font-semibold text-white" onclick="toggleAccordion('faq-2')">
+                            <span>What are the information about the hotels or airbnb around?</span>
                             <span id="icon-faq-2" class="transition-transform duration-200 transform rotate-0 text-gold-accent">+</span>
                         </div>
                         <div id="content-faq-2" class="p-4 bg-gray-900 hidden">
