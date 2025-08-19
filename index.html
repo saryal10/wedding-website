@@ -36,11 +36,15 @@
             position: relative;
         }
         .hero-section {
-            /* Replace this URL with the direct link to your online image! */
+            /* The main fix for mobile viewing. */
+            /* We use 'contain' to ensure the entire image is visible without cropping. */
+            /* 'no-repeat' prevents the image from tiling if it's smaller than the screen. */
+            /* We have removed 'background-attachment: fixed;' as it often breaks on mobile. */
             background-image: url('https://scontent.ftol2-1.fna.fbcdn.net/v/t39.30808-6/473589132_509156978849338_1498768219053235707_n.jpg?_nc_cat=108&ccb=1-7&_nc_sid=cc71e4&_nc_ohc=SljwsOEW6kgQ7kNvwE9hvrI&_nc_oc=AdnvhWEEOA5qltygYa7N78bgf-woRspB6VZ2RQ5Zfk93Z4t6o3it5k9kHdYjT42oJ4M&_nc_zt=23&_nc_ht=scontent.ftol2-1.fna&_nc_gid=bT4bWRVSakLMawKjmGM6vQ&oh=00_AfXoSpnjCdqUDEgSUuVuh0aMpHWKFZP1tPVl5nWlivXRQw&oe=68AABB4B');
-            background-size: cover;
+            background-size: contain;
             background-position: center;
-            background-attachment: fixed; /* Creates a subtle parallax effect */
+            background-repeat: no-repeat;
+            background-color: #0c0a09; /* Fallback color for empty spaces */
         }
         .gold-accent {
             color: #d4af37; /* Gold */
@@ -152,11 +156,13 @@
                     <p class="text-lg md:text-xl leading-relaxed text-left md:text-justify md:w-1/2">
                         It all started with a simple 'Hello' in a bustling coffee shop. A single conversation led to countless adventures, shared dreams, and a bond that grew stronger with every passing day. Our journey has been a testament to love's unexpected beginnings, and we can't wait to share our next chapter with all of you who have supported us along the way. We believe that every moment we have spent together has shaped who we are, and we are grateful for all the memories we've made.
                     </p>
+                    <!-- Note: The image URLs below are relative and need to be replaced with live URLs for them to display correctly. -->
                     <img src="img/namuna.png" alt="Our Story Photo 1" class="w-full md:w-1/2 rounded-xl shadow-lg transition-transform duration-300 hover:scale-105">
                 </div>
 
                 <!-- Second part of the story with image on the left -->
                 <div class="flex flex-col md:flex-row items-center gap-8">
+                    <!-- Note: The image URLs below are relative and need to be replaced with live URLs for them to display correctly. -->
                     <img src="img/sarad.png" alt="Our Story Photo 2" class="w-full md:w-1/2 rounded-xl shadow-lg transition-transform duration-300 hover:scale-105 order-last md:order-first">
                     <p class="text-lg md:text-xl leading-relaxed text-left md:text-justify md:w-1/2">
                         Our love story is built on laughter, trust, and a deep appreciation for the little things. From our late-night talks to our weekend road trips, we have discovered that the most beautiful moments are often the simplest ones. We are so excited to continue this adventure as we step into our new life together, and we are so blessed to have you all with us to celebrate.
