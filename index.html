@@ -10,117 +10,154 @@
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Poppins:wght@100;200;300;400;500;600;700&display=swap" rel="stylesheet">
     <!-- Tailwind CSS CDN for styling -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        body {
-            font-family: 'Poppins', sans-serif;
-            background-color: #0c0a09; /* Stone black */
-            color: #d1d5db; /* Light gray */
-            scroll-behavior: smooth;
+  <style>
+    body {
+        font-family: 'Poppins', sans-serif;
+        background-color: #0c0a09; /* Stone black */
+        color: #d1d5db; /* Light gray */
+        scroll-behavior: smooth;
+    }
+    h1, h2, h3, h4 {
+        font-family: 'Cormorant Garamond', serif;
+    }
+    .scroll-snap-container {
+        scroll-snap-type: y mandatory;
+        overflow-y: scroll;
+        height: 100vh;
+    }
+    .scroll-snap-section {
+        scroll-snap-align: start;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        text-align: center;
+        position: relative;
+    }
+    .hero-section {
+        /* The fix for the background image. */
+        /* We use 'cover' to ensure the image scales to cover the entire area. */
+        background-image: url('https://scontent.ftol2-1.fna.fbcdn.net/v/t39.30808-6/473589132_509156978849338_1498768219053235707_n.jpg?_nc_cat=108&ccb=1-7&_nc_sid=cc71e4&_nc_ohc=SljwsOEW6kgQ7kNvwE9hvrI&_nc_oc=AdnvhWEEOA5qltygYa7N78bgf-woRspB6VZ2RQ5Zfk93Z4t6o3it5k5kHdYjT42oJ4M&_nc_zt=23&_nc_ht=scontent.ftol2-1.fna&_nc_gid=bT4bWRVSakLMawKjmGM6vQ&oh=00_AfXoSpnjCdqUDEgSUuVuh0aMpHWKFZP1tPVl5nWlivXRQw&oe=68AABB4B');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-color: #0c0a09; /* Fallback color */
+    }
+    .gold-accent {
+        color: #d4af37; /* Gold */
+    }
+    .bg-opacity-70 {
+        background-color: rgba(12, 10, 9, 0.7);
+    }
+    .fade-in {
+        animation: fadeIn 2s ease-in-out;
+    }
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    /* Custom styles for the gallery hover effect */
+    .gallery-item {
+        position: relative;
+        overflow: hidden;
+        border-radius: 0.75rem; /* rounded-xl */
+        transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+        cursor: pointer;
+    }
+    .gallery-item:hover {
+        transform: scale(1.05); /* Slightly smaller zoom on hover to avoid jumping */
+        z-index: 20;
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    }
+    /* Styles for the full-screen modal */
+    #image-modal {
+        display: none;
+        position: fixed;
+        z-index: 50;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.9);
+        justify-content: center;
+        align-items: center;
+        animation: modalFadeIn 0.3s ease-in-out;
+    }
+    #image-modal.active {
+        display: flex;
+    }
+    #modal-content {
+        max-width: 90%;
+        max-height: 90%;
+        object-fit: contain;
+        border-radius: 0.75rem;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+        transition: transform 0.3s ease-in-out;
+        transform: scale(0.9);
+    }
+    #image-modal.active #modal-content {
+        transform: scale(1);
+    }
+    .modal-close {
+        position: absolute;
+        top: 20px;
+        right: 35px;
+        color: #d1d5db;
+        font-size: 40px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: color 0.2s;
+    }
+    .modal-close:hover,
+    .modal-close:focus {
+        color: #fff;
+        text-decoration: none;
+        cursor: pointer;
+    }
+
+    .petal-container {
+        pointer-events: none;
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        z-index: 100;
+        overflow: hidden;
+    }
+
+    .petal {
+        /* Updated image URL for the rose petal */
+        background: url('https://i.ibb.co/L5r64S0/rose-petal-transparent.png');
+        background-size: contain;
+        position: absolute;
+        top: -100px;
+        animation: fall 15s linear infinite;
+    }
+
+    /* Add different animations for a more random effect */
+    .petal:nth-child(2n) {
+        animation-duration: 20s;
+        animation-delay: -5s;
+    }
+
+    .petal:nth-child(3n) {
+        animation-duration: 18s;
+        animation-delay: -10s;
+    }
+
+    @keyframes fall {
+        to {
+            transform: translateY(120vh) rotate(360deg);
         }
-        h1, h2, h3, h4 {
-            font-family: 'Cormorant Garamond', serif;
-        }
-        .scroll-snap-container {
-            scroll-snap-type: y mandatory;
-            overflow-y: scroll;
-            height: 100vh;
-        }
-        .scroll-snap-section {
-            scroll-snap-align: start;
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-direction: column;
-            text-align: center;
-            position: relative;
-        }
-        .hero-section {
-            /* The fix for the background image. */
-            /* We use 'cover' to ensure the image scales to cover the entire area. */
-            background-image: url('https://scontent.ftol2-1.fna.fbcdn.net/v/t39.30808-6/473589132_509156978849338_1498768219053235707_n.jpg?_nc_cat=108&ccb=1-7&_nc_sid=cc71e4&_nc_ohc=SljwsOEW6kgQ7kNvwE9hvrI&_nc_oc=AdnvhWEEOA5qltygYa7N78bgf-woRspB6VZ2RQ5Zfk93Z4t6o3it5k9kHdYjT42oJ4M&_nc_zt=23&_nc_ht=scontent.ftol2-1.fna&_nc_gid=bT4bWRVSakLMawKjmGM6vQ&oh=00_AfXoSpnjCdqUDEgSUuVuh0aMpHWKFZP1tPVl5nWlivXRQw&oe=68AABB4B');
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            background-color: #0c0a09; /* Fallback color */
-        }
-        .gold-accent {
-            color: #d4af37; /* Gold */
-        }
-        .bg-opacity-70 {
-            background-color: rgba(12, 10, 9, 0.7);
-        }
-        .fade-in {
-            animation: fadeIn 2s ease-in-out;
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        /* Custom styles for the gallery hover effect */
-        .gallery-item {
-            position: relative;
-            overflow: hidden;
-            border-radius: 0.75rem; /* rounded-xl */
-            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
-            cursor: pointer;
-        }
-        .gallery-item:hover {
-            transform: scale(1.05); /* Slightly smaller zoom on hover to avoid jumping */
-            z-index: 20;
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-        }
-        /* Styles for the full-screen modal */
-        #image-modal {
-            display: none;
-            position: fixed;
-            z-index: 50;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.9);
-            justify-content: center;
-            align-items: center;
-            animation: modalFadeIn 0.3s ease-in-out;
-        }
-        #image-modal.active {
-            display: flex;
-        }
-        #modal-content {
-            max-width: 90%;
-            max-height: 90%;
-            object-fit: contain;
-            border-radius: 0.75rem;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
-            transition: transform 0.3s ease-in-out;
-            transform: scale(0.9);
-        }
-        #image-modal.active #modal-content {
-            transform: scale(1);
-        }
-        .modal-close {
-            position: absolute;
-            top: 20px;
-            right: 35px;
-            color: #d1d5db;
-            font-size: 40px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: color 0.2s;
-        }
-        .modal-close:hover,
-        .modal-close:focus {
-            color: #fff;
-            text-decoration: none;
-            cursor: pointer;
-        }
-    </style>
+    }
+</style>
 </head>
 <body class="antialiased pt-[5rem]">
     <!-- User ID Display for collaborative environment -->
     <div id="user-id-display" class="fixed bottom-4 right-4 z-50 text-xs text-gray-400"></div>
-
+    <div class="petal-container"></div>
     <!-- Fixed Navigation Bar -->
     <nav class="fixed top-0 left-0 w-full z-20 bg-stone-950 bg-opacity-80 backdrop-blur-sm transition-colors duration-300">
         <div class="container mx-auto px-4 md:px-8 py-4 flex justify-center space-x-4 md:space-x-8 text-sm md:text-base font-medium">
@@ -541,6 +578,53 @@
                 }
             });
         });
+        </script>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const modal = document.getElementById('image-modal');
+        const modalContent = document.getElementById('modal-content');
+        const galleryItems = document.querySelectorAll('.gallery-item img');
+        const modalClose = document.getElementById('modal-close');
+
+        // Open the modal when a gallery image is clicked
+        galleryItems.forEach(item => {
+            item.addEventListener('click', () => {
+                modal.classList.add('active');
+                modalContent.src = item.src;
+                document.body.style.overflow = 'hidden'; // Prevents scrolling behind the modal
+            });
+        });
+
+        // Close the modal when the close button is clicked
+        modalClose.addEventListener('click', () => {
+            modal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        });
+
+        // Close the modal when the user clicks outside the image
+        modal.addEventListener('click', (e) => {
+            if (e.target.id === 'image-modal' || e.target.id === 'modal-content') {
+                modal.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            }
+        });
+    });
     </script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const petalContainer = document.querySelector('.petal-container');
+    const numPetals = 50;
+
+    for (let i = 0; i < numPetals; i++) {
+        const petal = document.createElement('div');
+        petal.classList.add('petal');
+        petal.style.left = `${Math.random() * 100}vw`;
+        petal.style.width = `${10 + Math.random() * 20}px`;
+        petal.style.height = 'auto';
+        petal.style.animationDelay = `${Math.random() * -20}s`;
+        petalContainer.appendChild(petal);
+    }
+});
+</script>
 </body>
 </html>
