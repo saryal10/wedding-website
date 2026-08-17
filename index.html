@@ -34,10 +34,13 @@
   <style>
     html { scroll-behavior: smooth; }
     .glass {
-      background: rgba(255, 255, 255, 0.7);
+      background: rgba(255, 255, 255, 0.75);
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
       border: 1px solid rgba(255, 255, 255, 0.4);
+    }
+    .hero-slide {
+      transition: opacity 1.5s ease-in-out;
     }
   </style>
 </head>
@@ -50,24 +53,37 @@
       <div class="hidden md:flex space-x-8 text-sm font-medium tracking-wide uppercase text-gray-700">
         <a href="#story" class="hover:text-accent transition">Our Story</a>
         <a href="#schedule" class="hover:text-accent transition">Schedule</a>
+        <a href="#gallery" class="hover:text-accent transition">Gallery</a>
         <a href="#rsvp" class="hover:text-accent transition">RSVP</a>
       </div>
       <a href="#rsvp" class="bg-accent text-white px-5 py-2 rounded-full text-xs uppercase tracking-widest font-semibold hover:bg-accentHover transition shadow-md">RSVP Now</a>
     </div>
   </nav>
 
-  <!-- Hero Section -->
-  <section class="min-h-screen flex flex-col justify-center items-center text-center pt-24 pb-12 px-4 relative overflow-hidden bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-champagne via-blush to-white">
-    <span class="text-xs uppercase tracking-[0.3em] text-accent font-semibold mb-4">We are getting married</span>
-    <h1 class="font-serif text-6xl md:text-8xl mb-4 font-normal tracking-tight">Sarad <span class="italic text-accent">&</span> Namuna</h1>
-    <p class="text-lg md:text-xl font-light text-gray-600 mb-8 tracking-widest">OCTOBER 23, 2026 • SYLVANIA, OH</p>
+  <!-- Hero Section with Background Slideshow -->
+  <section id="hero" class="min-h-screen flex flex-col justify-center items-center text-center pt-24 pb-12 px-4 relative overflow-hidden">
+    
+    <!-- Slideshow Background Container -->
+    <div id="slideshow-container" class="absolute inset-0 z-0">
+      <!-- Photos will be dynamically injected here by JS -->
+    </div>
 
-    <!-- Countdown Timer (Added ID for scrolling anchor) -->
-    <div id="hero-timer" class="grid grid-cols-4 gap-4 max-w-md w-full my-8 glass p-6 rounded-2xl shadow-lg scroll-mt-32">
-      <div class="flex flex-col items-center"><span id="days" class="text-3xl font-serif text-rosewood">00</span><span class="text-xs uppercase text-gray-500">Days</span></div>
-      <div class="flex flex-col items-center"><span id="hours" class="text-3xl font-serif text-rosewood">00</span><span class="text-xs uppercase text-gray-500">Hours</span></div>
-      <div class="flex flex-col items-center"><span id="minutes" class="text-3xl font-serif text-rosewood">00</span><span class="text-xs uppercase text-gray-500">Mins</span></div>
-      <div class="flex flex-col items-center"><span id="seconds" class="text-3xl font-serif text-rosewood">00</span><span class="text-xs uppercase text-gray-500">Secs</span></div>
+    <!-- Dark Overlay to keep text easily readable over photos -->
+    <div class="absolute inset-0 bg-black/35 z-10"></div>
+
+    <!-- Content (Foreground) -->
+    <div class="relative z-20 flex flex-col items-center text-white">
+      <span class="text-xs uppercase tracking-[0.3em] text-champagne font-semibold mb-4 drop-shadow">We are getting married</span>
+      <h1 class="font-serif text-6xl md:text-8xl mb-4 font-normal tracking-tight text-white drop-shadow-md">Sarad <span class="italic text-accent">&</span> Namuna</h1>
+      <p class="text-lg md:text-xl font-light text-champagne mb-8 tracking-widest drop-shadow">OCTOBER 23, 2026 • SYLVANIA, OH</p>
+
+      <!-- Countdown Timer Container -->
+      <div class="grid grid-cols-4 gap-4 max-w-md w-full my-8 glass p-6 rounded-2xl shadow-xl text-rosewood">
+        <div class="flex flex-col items-center"><span id="days" class="text-3xl font-serif font-bold">00</span><span class="text-xs uppercase text-gray-600">Days</span></div>
+        <div class="flex flex-col items-center"><span id="hours" class="text-3xl font-serif font-bold">00</span><span class="text-xs uppercase text-gray-600">Hours</span></div>
+        <div class="flex flex-col items-center"><span id="minutes" class="text-3xl font-serif font-bold">00</span><span class="text-xs uppercase text-gray-600">Mins</span></div>
+        <div class="flex flex-col items-center"><span id="seconds" class="text-3xl font-serif font-bold">00</span><span class="text-xs uppercase text-gray-600">Secs</span></div>
+      </div>
     </div>
   </section>
 
@@ -180,13 +196,47 @@
 
   <!-- Scripts -->
   <script>
-    // Fixed: Quoted String for Web App URL
+    // --- 1. SLIDESHOW CONFIGURATION ---
+    // Replace these URLs with your image links (e.g., 'img/photo1.jpg' or external URL)
+    const images = [
+      'img/photo1.jpg',
+      'img/photo2.jpg',
+      'img/photo3.jpg',
+      'img/photo4.jpg',
+      'img/photo5.jpg'
+    ];
+
+    const slideshowContainer = document.getElementById('slideshow-container');
+
+    // Build the slide elements dynamically
+    images.forEach((src, index) => {
+      const slide = document.createElement('div');
+      slide.className = `hero-slide absolute inset-0 bg-cover bg-center ${index === 0 ? 'opacity-100' : 'opacity-0'}`;
+      slide.style.backgroundImage = `url('${src}')`;
+      slideshowContainer.appendChild(slide);
+    });
+
+    let currentSlide = 0;
+    const slides = document.querySelectorAll('.hero-slide');
+
+    // Cycle slides every 5 seconds (5000 ms)
+    setInterval(() => {
+      slides[currentSlide].classList.remove('opacity-100');
+      slides[currentSlide].classList.add('opacity-0');
+      
+      currentSlide = (currentSlide + 1) % slides.length;
+      
+      slides[currentSlide].classList.remove('opacity-0');
+      slides[currentSlide].classList.add('opacity-100');
+    }, 5000);
+
+    // --- 2. GOOGLE SHEETS SCRIPT URL ---
     const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbx4e42GesPXVzs3uQhNpUdVZYZC12yXn_6zZpa0m8U6oodnqUx2cReQZF9IWXuiF6Kd/exec";
 
-    // Countdown Timer Logic
+    // --- 3. COUNTDOWN TIMER LOGIC ---
     const targetDate = new Date("October 23, 2026 13:00:00").getTime();
     
-    function updateCountdown() {
+    function updateTimer() {
       const now = new Date().getTime();
       const difference = targetDate - now;
 
@@ -195,13 +245,18 @@
         document.getElementById("hours").innerText = String(Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))).padStart(2, '0');
         document.getElementById("minutes").innerText = String(Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60))).padStart(2, '0');
         document.getElementById("seconds").innerText = String(Math.floor((difference % (1000 * 60)) / 1000)).padStart(2, '0');
+      } else {
+        document.getElementById("days").innerText = "00";
+        document.getElementById("hours").innerText = "00";
+        document.getElementById("minutes").innerText = "00";
+        document.getElementById("seconds").innerText = "00";
       }
     }
+    
+    setInterval(updateTimer, 1000);
+    updateTimer();
 
-    updateCountdown();
-    setInterval(updateCountdown, 1000);
-
-    // RSVP Form Submission to Google Sheets
+    // --- 4. RSVP FORM SUBMISSION & ANCHOR NAVIGATION ---
     const form = document.getElementById("rsvpForm");
     const submitBtn = document.getElementById("submitBtn");
     const statusMsg = document.getElementById("statusMessage");
@@ -224,7 +279,7 @@
       fetch(GOOGLE_SCRIPT_URL, {
         method: "POST",
         mode: "no-cors",
-        headers: { "Content-Type": "text/plain;charset=utf-8" },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload)
       })
       .then(() => {
@@ -233,12 +288,13 @@
         form.reset();
         submitBtn.disabled = false;
         submitBtn.innerText = "Send Response";
-
-        // Scroll smooth anchor to the countdown section
-        document.getElementById("hero-timer").scrollIntoView({ behavior: "smooth" });
+        
+        // Anchors back to the top hero section
+        window.location.hash = "#hero";
       })
       .catch((error) => {
-        statusMsg.innerText = "Something went wrong. Please try again.";
+        console.error("Error:", error);
+        statusMsg.innerText = "Something went wrong. Please check your internet connection.";
         statusMsg.className = "mt-6 text-center text-sm font-medium py-3 px-4 rounded-xl bg-rose-50 text-rose-700 block";
         submitBtn.disabled = false;
         submitBtn.innerText = "Send Response";
