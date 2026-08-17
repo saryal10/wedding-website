@@ -39,8 +39,16 @@
       -webkit-backdrop-filter: blur(12px);
       border: 1px solid rgba(255, 255, 255, 0.4);
     }
+    
+    /* Device-agnostic slide styles */
     .hero-slide {
       transition: opacity 1.5s ease-in-out;
+      background-size: cover;
+      background-position: center center;
+      background-repeat: no-repeat;
+      width: 100%;
+      height: 100%;
+      will-change: opacity;
     }
   </style>
 </head>
@@ -53,7 +61,6 @@
       <div class="hidden md:flex space-x-8 text-sm font-medium tracking-wide uppercase text-gray-700">
         <a href="#story" class="hover:text-accent transition">Our Story</a>
         <a href="#schedule" class="hover:text-accent transition">Schedule</a>
-        <a href="#gallery" class="hover:text-accent transition">Gallery</a>
         <a href="#rsvp" class="hover:text-accent transition">RSVP</a>
       </div>
       <a href="#rsvp" class="bg-accent text-white px-5 py-2 rounded-full text-xs uppercase tracking-widest font-semibold hover:bg-accentHover transition shadow-md">RSVP Now</a>
@@ -61,28 +68,28 @@
   </nav>
 
   <!-- Hero Section with Background Slideshow -->
-  <section id="hero" class="min-h-screen flex flex-col justify-center items-center text-center pt-24 pb-12 px-4 relative overflow-hidden">
+  <section id="hero" class="min-h-screen min-h-[100dvh] flex flex-col justify-center items-center text-center pt-24 pb-12 px-4 relative overflow-hidden">
     
     <!-- Slideshow Background Container -->
-    <div id="slideshow-container" class="absolute inset-0 z-0">
+    <div id="slideshow-container" class="absolute inset-0 z-0 w-full h-full">
       <!-- Photos will be dynamically injected here by JS -->
     </div>
 
     <!-- Dark Overlay to keep text easily readable over photos -->
-    <div class="absolute inset-0 bg-black/35 z-10"></div>
+    <div class="absolute inset-0 bg-black/40 z-10"></div>
 
     <!-- Content (Foreground) -->
-    <div class="relative z-20 flex flex-col items-center text-white">
-      <span class="text-xs uppercase tracking-[0.3em] text-champagne font-semibold mb-4 drop-shadow">We are getting married</span>
-      <h1 class="font-serif text-6xl md:text-8xl mb-4 font-normal tracking-tight text-white drop-shadow-md">Sarad <span class="italic text-accent">&</span> Namuna</h1>
-      <p class="text-lg md:text-xl font-light text-champagne mb-8 tracking-widest drop-shadow">OCTOBER 23, 2026 • SYLVANIA, OH</p>
+    <div class="relative z-20 flex flex-col items-center text-white max-w-4xl mx-auto px-4">
+      <span class="text-xs md:text-sm uppercase tracking-[0.3em] text-champagne font-semibold mb-4 drop-shadow">We are getting married</span>
+      <h1 class="font-serif text-5xl sm:text-7xl md:text-8xl mb-4 font-normal tracking-tight text-white drop-shadow-md">Sarad <span class="italic text-accent">&</span> Namuna</h1>
+      <p class="text-base sm:text-lg md:text-xl font-light text-champagne mb-8 tracking-widest drop-shadow">OCTOBER 23, 2026 • SYLVANIA, OH</p>
 
       <!-- Countdown Timer Container -->
-      <div class="grid grid-cols-4 gap-4 max-w-md w-full my-8 glass p-6 rounded-2xl shadow-xl text-rosewood">
-        <div class="flex flex-col items-center"><span id="days" class="text-3xl font-serif font-bold">00</span><span class="text-xs uppercase text-gray-600">Days</span></div>
-        <div class="flex flex-col items-center"><span id="hours" class="text-3xl font-serif font-bold">00</span><span class="text-xs uppercase text-gray-600">Hours</span></div>
-        <div class="flex flex-col items-center"><span id="minutes" class="text-3xl font-serif font-bold">00</span><span class="text-xs uppercase text-gray-600">Mins</span></div>
-        <div class="flex flex-col items-center"><span id="seconds" class="text-3xl font-serif font-bold">00</span><span class="text-xs uppercase text-gray-600">Secs</span></div>
+      <div class="grid grid-cols-4 gap-2 sm:gap-4 max-w-md w-full my-4 sm:my-8 glass p-4 sm:p-6 rounded-2xl shadow-xl text-rosewood">
+        <div class="flex flex-col items-center"><span id="days" class="text-2xl sm:text-3xl font-serif font-bold">00</span><span class="text-[10px] sm:text-xs uppercase text-gray-600">Days</span></div>
+        <div class="flex flex-col items-center"><span id="hours" class="text-2xl sm:text-3xl font-serif font-bold">00</span><span class="text-[10px] sm:text-xs uppercase text-gray-600">Hours</span></div>
+        <div class="flex flex-col items-center"><span id="minutes" class="text-2xl sm:text-3xl font-serif font-bold">00</span><span class="text-[10px] sm:text-xs uppercase text-gray-600">Mins</span></div>
+        <div class="flex flex-col items-center"><span id="seconds" class="text-2xl sm:text-3xl font-serif font-bold">00</span><span class="text-[10px] sm:text-xs uppercase text-gray-600">Secs</span></div>
       </div>
     </div>
   </section>
@@ -197,7 +204,6 @@
   <!-- Scripts -->
   <script>
     // --- 1. SLIDESHOW CONFIGURATION ---
-    // Replace these URLs with your image links (e.g., 'img/photo1.jpg' or external URL)
     const images = [
       'img/photo1.jpg',
       'img/photo2.jpg',
@@ -205,15 +211,25 @@
       'img/photo4.jpg',
       'img/photo5.jpg',
       'img/photo6.jpg',
-      'img/photo7.jpg'
+      'img/photo7.jpg',
+      'img/photo8.jpg',
+      'img/photo9.jpg',
+      'img/photo10.jpg',
+      'img/photo11.jpg',
+      'img/photo12.jpg',
+      'img/photo13.jpg',
+      'img/photo14.jpg'
     ];
 
     const slideshowContainer = document.getElementById('slideshow-container');
 
-    // Build the slide elements dynamically
+    // Preload & Build Slides dynamically
     images.forEach((src, index) => {
+      const img = new Image();
+      img.src = src; // Preloads image into browser cache
+
       const slide = document.createElement('div');
-      slide.className = `hero-slide absolute inset-0 bg-cover bg-center ${index === 0 ? 'opacity-100' : 'opacity-0'}`;
+      slide.className = `hero-slide absolute inset-0 ${index === 0 ? 'opacity-100' : 'opacity-0'}`;
       slide.style.backgroundImage = `url('${src}')`;
       slideshowContainer.appendChild(slide);
     });
@@ -221,8 +237,8 @@
     let currentSlide = 0;
     const slides = document.querySelectorAll('.hero-slide');
 
-    // Cycle slides every 5 seconds (5000 ms)
     setInterval(() => {
+      if (slides.length <= 1) return;
       slides[currentSlide].classList.remove('opacity-100');
       slides[currentSlide].classList.add('opacity-0');
       
@@ -258,7 +274,7 @@
     setInterval(updateTimer, 1000);
     updateTimer();
 
-    // --- 4. RSVP FORM SUBMISSION & ANCHOR NAVIGATION ---
+    // --- 4. RSVP FORM SUBMISSION ---
     const form = document.getElementById("rsvpForm");
     const submitBtn = document.getElementById("submitBtn");
     const statusMsg = document.getElementById("statusMessage");
@@ -290,8 +306,6 @@
         form.reset();
         submitBtn.disabled = false;
         submitBtn.innerText = "Send Response";
-        
-        // Anchors back to the top hero section
         window.location.hash = "#hero";
       })
       .catch((error) => {
