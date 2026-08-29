@@ -59,7 +59,7 @@
   <header class="pt-36 pb-16 px-6 text-center max-w-4xl mx-auto">
     <span class="text-xs uppercase tracking-[0.4em] text-accent font-semibold">Memories & Moments</span>
     <h1 class="font-serif text-5xl md:text-6xl mt-2 text-rosewood">Wedding Gallery</h1>
-    <p class="text-gray-600 font-light mt-4 text-sm tracking-wide">A curated look back at our unforgettable celebration.</p>
+    <p class="text-gray-600 font-light mt-4 text-sm tracking-wide">Click any photo to view full-screen, or use the download button to save your favorites.</p>
     <div class="w-16 h-0.5 bg-accent mx-auto mt-6"></div>
   </header>
 
@@ -67,6 +67,18 @@
     <div id="gallery-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
       </div>
   </main>
+
+  <div id="lightbox" class="fixed inset-0 z-50 bg-black/90 backdrop-blur-md hidden flex-col items-center justify-center p-4">
+    <button id="closeLightbox" class="absolute top-6 right-6 text-white text-3xl font-light hover:text-accent transition">&times;</button>
+    <div class="max-w-4xl max-h-[80vh] flex flex-col items-center">
+      <img id="lightboxImg" src="" alt="Enlarged Wedding Photo" class="max-w-full max-h-[70vh] object-contain rounded-xl shadow-2xl">
+      <p id="lightboxCaption" class="text-champagne font-serif text-lg italic mt-4"></p>
+      <a id="lightboxDownload" href="" download class="mt-4 inline-flex items-center gap-2 bg-accent text-white px-6 py-2.5 rounded-full text-xs uppercase tracking-widest font-semibold hover:bg-accentHover transition shadow-lg">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+        Download Full Image
+      </a>
+    </div>
+  </div>
 
   <footer class="py-10 text-center text-xs text-gray-500 border-t border-gray-200 bg-champagne/20">
     <p class="font-serif tracking-widest uppercase mb-1">Sarad & Namuna</p>
@@ -76,8 +88,8 @@
   <script>
     // --- ADD OR REMOVE IMAGE PATHS HERE (Supports 100+ images easily) ---
     const galleryImages = [
-      { src: 'img/photo1.jpg', caption: 'Special Moments' },
-      { src: 'img/photo2.jpg', caption: 'The Ceremony' },
+      { src: 'img/photo1.jpg', caption: 'The Ceremony' },
+      { src: 'img/photo2.jpg', caption: 'Special Moments' },
       { src: 'img/photo3.jpg', caption: 'Joyful Smiles' },
       { src: 'img/photo4.jpg', caption: 'Celebration Time' },
       { src: 'img/photo5.jpg', caption: 'Family & Friends' },
@@ -85,28 +97,55 @@
       { src: 'img/photo7.jpg', caption: 'The Reception' },
       { src: 'img/photo8.jpg', caption: 'Evening Glow' },
       { src: 'img/photo9.jpg', caption: 'Forever Together' },
-      // To add more photos later, just paste them below in this format:
-      // { src: 'img/photo10.jpg', caption: 'Beautiful Memory' },
     ];
 
     const gridContainer = document.getElementById('gallery-grid');
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImg = document.getElementById('lightboxImg');
+    const lightboxCaption = document.getElementById('lightboxCaption');
+    const lightboxDownload = document.getElementById('lightboxDownload');
+    const closeLightbox = document.getElementById('closeLightbox');
 
     // Automatically build elements for each image in the array
     galleryImages.forEach((item, index) => {
       const card = document.createElement('div');
-      // Add subtle alternating top margins on desktop grid items for an organic masonry feel
       const staggeredClass = (index % 3 === 1) ? 'sm:mt-8' : '';
       
-      card.className = `group relative overflow-hidden rounded-3xl shadow-lg aspect-[4/5] bg-champagne ${staggeredClass}`;
+      card.className = `group relative overflow-hidden rounded-3xl shadow-lg aspect-[4/5] bg-champagne cursor-pointer ${staggeredClass}`;
       
       card.innerHTML = `
         <img src="${item.src}" alt="${item.caption}" loading="lazy" class="w-full h-full object-cover group-hover:scale-110 transition duration-700">
-        <div class="absolute inset-0 bg-gradient-to-t from-rosewood/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition duration-300 flex items-end p-6">
+        <div class="absolute inset-0 bg-gradient-to-t from-rosewood/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition duration-300 flex justify-between items-end p-6">
           <span class="text-white font-serif text-lg italic">${item.caption}</span>
+          <a href="${item.src}" download class="bg-accent/90 hover:bg-accent text-white p-2.5 rounded-full shadow-md transition transform hover:scale-110 flex items-center justify-center" title="Download Image" onclick="event.stopPropagation()">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+          </a>
         </div>
       `;
+
+      // Open Lightbox when clicking the card
+      card.addEventListener('click', () => {
+        lightboxImg.src = item.src;
+        lightboxCaption.innerText = item.caption;
+        lightboxDownload.href = item.src;
+        lightbox.classList.remove('hidden');
+        lightbox.classList.add('flex');
+      });
       
       gridContainer.appendChild(card);
+    });
+
+    // Close Lightbox functions
+    closeLightbox.addEventListener('click', () => {
+      lightbox.classList.add('hidden');
+      lightbox.classList.remove('flex');
+    });
+
+    lightbox.addEventListener('click', (e) => {
+      if (e.target === lightbox) {
+        lightbox.classList.add('hidden');
+        lightbox.classList.remove('flex');
+      }
     });
   </script>
 
