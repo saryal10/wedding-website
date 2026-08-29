@@ -5,12 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sarad & Namuna | Wedding Celebration</title>
   
-  <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
   
-  <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
@@ -39,140 +37,163 @@
       -webkit-backdrop-filter: blur(12px);
       border: 1px solid rgba(255, 255, 255, 0.4);
     }
+    .glass-dark {
+      background: rgba(44, 24, 32, 0.6);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(197, 160, 89, 0.2);
+    }
     
-    /* Device-Agnostic & High-Visibility Slide Styles */
     .hero-slide {
-      transition: opacity 1.5s ease-in-out;
+      transition: opacity 1.5s ease-in-out, transform 6s ease-out;
       background-size: cover;
-      background-position: center 35%; /* Slightly higher focus point prevents portrait faces from getting cut off */
+      background-position: center 35%;
       background-repeat: no-repeat;
       width: 100%;
       height: 100%;
-      will-change: opacity;
+      will-change: opacity, transform;
+      transform: scale(1);
+    }
+    .hero-slide.active-zoom {
+      transform: scale(1.05);
     }
 
-    /* Fallback for ultra-tall portrait mobile screens */
     @media (max-aspect-ratio: 4/5) {
       .hero-slide {
         background-position: center 25%;
       }
     }
+
+    @keyframes pulseGlow {
+      0%, 100% { opacity: 0.3; transform: scale(1); }
+      50% { opacity: 0.6; transform: scale(1.08); }
+    }
+    .animate-glow {
+      animation: pulseGlow 8s infinite ease-in-out;
+    }
   </style>
 </head>
 <body class="bg-blush text-rosewood font-sans antialiased selection:bg-accent selection:text-white">
 
-  <!-- Navigation Bar -->
   <nav class="fixed top-0 left-0 w-full z-50 transition-all duration-300 py-4 px-6 glass shadow-sm">
     <div class="max-w-6xl mx-auto flex justify-between items-center">
-      <a href="#" class="font-serif text-2xl tracking-wider text-rosewood">S <span class="text-accent">&</span> N</a>
+      <a href="index.html" class="font-serif text-2xl tracking-wider text-rosewood flex items-center gap-2">
+        <span>S</span> <span class="text-accent">&</span> <span>N</span>
+      </a>
       <div class="hidden md:flex space-x-8 text-sm font-medium tracking-wide uppercase text-gray-700">
-        <a href="#story" class="hover:text-accent transition">Our Story</a>
-        <a href="#schedule" class="hover:text-accent transition">Schedule</a>
-        <a href="#rsvp" class="hover:text-accent transition">RSVP</a>
+        <a href="index.html#story" class="hover:text-accent transition duration-300">Our Story</a>
+        <a href="index.html#schedule" class="hover:text-accent transition duration-300">Schedule</a>
+        <a href="gallery.html" class="hover:text-accent transition duration-300">Gallery</a>
+        <a href="#rsvp" class="hover:text-accent transition duration-300">RSVP</a>
       </div>
-      <a href="#rsvp" class="bg-accent text-white px-5 py-2 rounded-full text-xs uppercase tracking-widest font-semibold hover:bg-accentHover transition shadow-md">RSVP Now</a>
+      <a href="#rsvp" class="bg-accent text-white px-5 py-2 rounded-full text-xs uppercase tracking-widest font-semibold hover:bg-accentHover transition-all shadow-md hover:scale-105">RSVP Now</a>
     </div>
   </nav>
 
-  <!-- Hero Section with Background Slideshow -->
   <section id="hero" class="min-h-screen min-h-[100dvh] flex flex-col justify-center items-center text-center pt-24 pb-12 px-4 relative overflow-hidden bg-rosewood">
     
-    <!-- Slideshow Background Container -->
-    <div id="slideshow-container" class="absolute inset-0 z-0 w-full h-full">
-      <!-- Photos will be dynamically injected here by JS -->
-    </div>
+    <div id="slideshow-container" class="absolute inset-0 z-0 w-full h-full"></div>
 
-    <!-- Gradient Overlay: Lighter in middle for photo clarity, darker at top/bottom for text contrast -->
-    <div class="absolute inset-0 bg-gradient-to-b from-black/50 via-black/25 to-black/60 z-10 pointer-events-none"></div>
+    <div class="absolute inset-0 bg-gradient-to-b from-black/60 via-black/30 to-black/70 z-10 pointer-events-none"></div>
+    <div class="absolute -top-32 -left-32 w-96 h-96 bg-accent/20 rounded-full blur-3xl z-10 pointer-events-none animate-glow"></div>
 
-    <!-- Content (Foreground) -->
-    <div class="relative z-20 flex flex-col items-center text-white max-w-4xl mx-auto px-4">
-      <span class="text-xs md:text-sm uppercase tracking-[0.3em] text-champagne font-semibold mb-4 drop-shadow">We are getting married</span>
-      <h1 class="font-serif text-5xl sm:text-7xl md:text-8xl mb-4 font-normal tracking-tight text-white drop-shadow-md">Sarad <span class="italic text-accent">&</span> Namuna</h1>
-      <p class="text-base sm:text-lg md:text-xl font-light text-champagne mb-8 tracking-widest drop-shadow">OCTOBER 23, 2026 • MADISON, WI</p>
+    <div class="relative z-20 flex flex-col items-center text-white max-w-4xl mx-auto px-4 mt-6">
+      <span class="text-xs md:text-sm uppercase tracking-[0.4em] text-champagne font-medium mb-4 drop-shadow border-y border-champagne/30 py-1 px-4">We are getting married</span>
+      <h1 class="font-serif text-5xl sm:text-7xl md:text-8xl mb-4 font-normal tracking-tight text-white drop-shadow-lg">Sarad <span class="italic text-accent">&</span> Namuna</h1>
+      <p class="text-base sm:text-lg md:text-xl font-light text-champagne mb-8 tracking-[0.25em] drop-shadow">OCTOBER 23, 2026 • NORWALK, WI</p>
 
-      <!-- Countdown Timer Container -->
-      <div class="grid grid-cols-4 gap-2 sm:gap-4 max-w-md w-full my-4 sm:my-8 glass p-4 sm:p-6 rounded-2xl shadow-xl text-rosewood">
-        <div class="flex flex-col items-center"><span id="days" class="text-2xl sm:text-3xl font-serif font-bold">00</span><span class="text-[10px] sm:text-xs uppercase text-gray-600">Days</span></div>
-        <div class="flex flex-col items-center"><span id="hours" class="text-2xl sm:text-3xl font-serif font-bold">00</span><span class="text-[10px] sm:text-xs uppercase text-gray-600">Hours</span></div>
-        <div class="flex flex-col items-center"><span id="minutes" class="text-2xl sm:text-3xl font-serif font-bold">00</span><span class="text-[10px] sm:text-xs uppercase text-gray-600">Mins</span></div>
-        <div class="flex flex-col items-center"><span id="seconds" class="text-2xl sm:text-3xl font-serif font-bold">00</span><span class="text-[10px] sm:text-xs uppercase text-gray-600">Secs</span></div>
+      <div class="grid grid-cols-4 gap-3 sm:gap-6 max-w-md w-full my-4 sm:my-6 glass-dark p-4 sm:p-6 rounded-2xl shadow-2xl text-white border border-accent/30 backdrop-blur-md">
+        <div class="flex flex-col items-center"><span id="days" class="text-2xl sm:text-4xl font-serif font-bold text-champagne">00</span><span class="text-[9px] sm:text-xs uppercase tracking-wider text-gray-300 mt-1">Days</span></div>
+        <div class="flex flex-col items-center"><span id="hours" class="text-2xl sm:text-4xl font-serif font-bold text-champagne">00</span><span class="text-[9px] sm:text-xs uppercase tracking-wider text-gray-300 mt-1">Hours</span></div>
+        <div class="flex flex-col items-center"><span id="minutes" class="text-2xl sm:text-4xl font-serif font-bold text-champagne">00</span><span class="text-[9px] sm:text-xs uppercase tracking-wider text-gray-300 mt-1">Mins</span></div>
+        <div class="flex flex-col items-center"><span id="seconds" class="text-2xl sm:text-4xl font-serif font-bold text-champagne">00</span><span class="text-[9px] sm:text-xs uppercase tracking-wider text-gray-300 mt-1">Secs</span></div>
       </div>
     </div>
   </section>
 
-  <!-- Our Story Section -->
-  <section id="story" class="py-24 px-6 max-w-5xl mx-auto">
+  <section id="story" class="py-28 px-6 max-w-5xl mx-auto relative">
     <div class="text-center mb-16">
-      <span class="text-xs uppercase tracking-[0.2em] text-accent font-semibold">The Beginning</span>
-      <h2 class="font-serif text-4xl md:text-5xl mt-2">Our Love Story</h2>
+      <span class="text-xs uppercase tracking-[0.3em] text-accent font-semibold">The Beginning</span>
+      <h2 class="font-serif text-4xl md:text-5xl mt-2 text-rosewood">Our Love Story</h2>
+      <div class="w-16 h-0.5 bg-accent mx-auto mt-4"></div>
     </div>
 
-    <div class="grid md:grid-cols-2 gap-12 items-center">
-      <div class="glass p-8 rounded-2xl shadow-sm border border-champagne space-y-4">
-        <h3 class="font-serif text-2xl text-accent italic">How It Started</h3>
-        <p class="text-gray-600 leading-relaxed font-light">
+    <div class="grid md:grid-cols-2 gap-10 items-stretch">
+      <div class="glass p-8 md:p-10 rounded-3xl shadow-lg border border-champagne space-y-4 hover:shadow-xl transition duration-300">
+        <span class="text-4xl font-serif text-accent">“</span>
+        <h3 class="font-serif text-2xl text-rosewood -mt-2">How It Started</h3>
+        <p class="text-gray-600 leading-relaxed font-light text-base">
           What began with a simple conversation bloomed into shared adventures, quiet laughter, and an unbreakable bond. Every moment together has shaped our journey, bringing us to this beautiful celebration.
         </p>
       </div>
-      <div class="glass p-8 rounded-2xl shadow-sm border border-champagne space-y-4">
-        <h3 class="font-serif text-2xl text-accent italic">Looking Ahead</h3>
-        <p class="text-gray-600 leading-relaxed font-light">
+      <div class="glass p-8 md:p-10 rounded-3xl shadow-lg border border-champagne space-y-4 hover:shadow-xl transition duration-300">
+        <span class="text-4xl font-serif text-accent">“</span>
+        <h3 class="font-serif text-2xl text-rosewood -mt-2">Looking Ahead</h3>
+        <p class="text-gray-600 leading-relaxed font-light text-base">
           Built on trust, joy, and deep appreciation for life's simple pleasures, we are thrilled to step into this new chapter surrounded by the family and friends who mean the world to us.
         </p>
       </div>
     </div>
   </section>
 
-  <!-- Schedule Section -->
-  <section id="schedule" class="py-24 bg-champagne/40 px-6">
+  <section id="schedule" class="py-28 bg-champagne/30 px-6 border-y border-champagne/50">
     <div class="max-w-4xl mx-auto">
       <div class="text-center mb-16">
-        <span class="text-xs uppercase tracking-[0.2em] text-accent font-semibold">Details</span>
-        <h2 class="font-serif text-4xl md:text-5xl mt-2">The Wedding Day</h2>
+        <span class="text-xs uppercase tracking-[0.3em] text-accent font-semibold">Details</span>
+        <h2 class="font-serif text-4xl md:text-5xl mt-2 text-rosewood">The Wedding Day</h2>
+        <div class="w-16 h-0.5 bg-accent mx-auto mt-4"></div>
       </div>
 
       <div class="grid md:grid-cols-2 gap-8">
-        <div class="bg-white/80 p-8 rounded-2xl shadow-sm border border-gray-100 text-center space-y-3">
-          <span class="text-accent text-sm uppercase tracking-wider font-semibold">The Ceremony</span>
-          <h3 class="font-serif text-2xl">Wedding Rituals</h3>
-          <p class="text-sm font-medium text-gray-500">Friday, October 23, 2026 | 1:00 PM EST</p>
-          <p class="text-gray-600 font-light">Hindu Temple of Wisconsin<br>N4063 W243 Pewaukee Rd, Pewaukee, WI 53072</p>
+        <div class="bg-white/90 p-8 md:p-10 rounded-3xl shadow-md border border-champagne/60 text-center space-y-4 hover:scale-[1.02] transition duration-300">
+          <div class="w-12 h-12 bg-champagne rounded-full flex items-center justify-center mx-auto text-accent font-serif text-lg font-bold">01</div>
+          <span class="text-accent text-xs uppercase tracking-widest font-bold">The Ceremony</span>
+          <h3 class="font-serif text-2xl text-rosewood">Wedding Rituals</h3>
+          <p class="text-xs font-semibold text-gray-500 uppercase tracking-wide">Thursday - Friday, October 22 - 23, 2026 | 5:00 PM EST Onwards</p>
+          <p class="text-gray-600 font-light text-sm leading-relaxed">
+            <strong class="font-medium text-rosewood">Venue Location:</strong><br>
+            27708 New Haven Road<br>Norwalk, WI 54648
+          </p>
         </div>
 
-        <div class="bg-white/80 p-8 rounded-2xl shadow-sm border border-gray-100 text-center space-y-3">
-          <span class="text-accent text-sm uppercase tracking-wider font-semibold">The Celebration</span>
-          <h3 class="font-serif text-2xl">Grand Celebration</h3>
-          <p class="text-sm font-medium text-gray-500">Friday, October 23, 2026 | 5:00 PM EST</p>
-          <p class="text-gray-600 font-light">Madison Residence<br>Madison, WI</p>
+        <div class="bg-white/90 p-8 md:p-10 rounded-3xl shadow-md border border-champagne/60 text-center space-y-4 hover:scale-[1.02] transition duration-300">
+          <div class="w-12 h-12 bg-champagne rounded-full flex items-center justify-center mx-auto text-accent font-serif text-lg font-bold">02</div>
+          <span class="text-accent text-xs uppercase tracking-widest font-bold">The Celebration</span>
+          <h3 class="font-serif text-2xl text-rosewood">Grand Reception</h3>
+          <p class="text-xs font-semibold text-gray-500 uppercase tracking-wide">Friday - Sunday, October 23 - 25, 2026 | 1:00 PM EST Onwards</p>
+          <p class="text-gray-600 font-light text-sm leading-relaxed">
+            <strong class="font-medium text-rosewood">Venue Location:</strong><br>
+            27708 New Haven Road<br>Norwalk, WI 54648
+          </p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- RSVP Section with Google Sheet Sync -->
-  <section id="rsvp" class="py-24 px-6 max-w-2xl mx-auto">
-    <div class="glass p-8 md:p-12 rounded-3xl shadow-xl border border-white">
+  <section id="rsvp" class="py-28 px-6 max-w-2xl mx-auto">
+    <div class="glass p-8 md:p-12 rounded-3xl shadow-2xl border border-white relative overflow-hidden">
+      <div class="absolute -right-20 -bottom-20 w-48 h-48 bg-accent/10 rounded-full blur-2xl pointer-events-none"></div>
+      
       <div class="text-center mb-8">
-        <span class="text-xs uppercase tracking-[0.2em] text-accent font-semibold">Join Us</span>
-        <h2 class="font-serif text-4xl mt-1">Kindly Respond</h2>
+        <span class="text-xs uppercase tracking-[0.3em] text-accent font-semibold">Join Us</span>
+        <h2 class="font-serif text-4xl mt-1 text-rosewood">Kindly Respond</h2>
         <p class="text-xs text-gray-500 mt-2">Please respond by August 29, 2026</p>
       </div>
 
       <form id="rsvpForm" class="space-y-6">
         <div>
           <label class="block text-xs uppercase tracking-wider text-gray-600 mb-2 font-medium">Full Name *</label>
-          <input type="text" id="fullName" required class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-accent/50 bg-white/50 text-sm">
+          <input type="text" id="fullName" required class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-accent/50 bg-white/60 text-sm">
         </div>
 
         <div>
           <label class="block text-xs uppercase tracking-wider text-gray-600 mb-2 font-medium">Email Address *</label>
-          <input type="email" id="email" required class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-accent/50 bg-white/50 text-sm">
+          <input type="email" id="email" required class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-accent/50 bg-white/60 text-sm">
         </div>
 
         <div>
           <label class="block text-xs uppercase tracking-wider text-gray-600 mb-2 font-medium">Will you join us? *</label>
-          <select id="attending" required class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-accent/50 bg-white/50 text-sm">
+          <select id="attending" required class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-accent/50 bg-white/60 text-sm">
             <option value="Joyfully Accepts">Joyfully Accepts</option>
             <option value="Regretfully Declines">Regretfully Declines</option>
           </select>
@@ -181,20 +202,20 @@
         <div class="grid grid-cols-2 gap-4">
           <div>
             <label class="block text-xs uppercase tracking-wider text-gray-600 mb-2 font-medium">Total Guests</label>
-            <input type="number" id="guestCount" min="1" max="5" value="1" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-accent/50 bg-white/50 text-sm">
+            <input type="number" id="guestCount" min="1" max="5" value="1" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-accent/50 bg-white/60 text-sm">
           </div>
           <div>
             <label class="block text-xs uppercase tracking-wider text-gray-600 mb-2 font-medium">Dietary Needs</label>
-            <input type="text" id="dietary" placeholder="e.g., Vegetarian" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-accent/50 bg-white/50 text-sm">
+            <input type="text" id="dietary" placeholder="e.g., Vegetarian" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-accent/50 bg-white/60 text-sm">
           </div>
         </div>
 
         <div>
           <label class="block text-xs uppercase tracking-wider text-gray-600 mb-2 font-medium">Message for the Couple</label>
-          <textarea id="message" rows="3" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-accent/50 bg-white/50 text-sm"></textarea>
+          <textarea id="message" rows="3" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-accent/50 bg-white/60 text-sm"></textarea>
         </div>
 
-        <button type="submit" id="submitBtn" class="w-full py-4 bg-rosewood text-white rounded-xl text-xs uppercase tracking-widest font-semibold hover:bg-accent transition shadow-lg">
+        <button type="submit" id="submitBtn" class="w-full py-4 bg-rosewood text-white rounded-xl text-xs uppercase tracking-widest font-semibold hover:bg-accent transition-all shadow-lg hover:shadow-xl">
           Send Response
         </button>
       </form>
@@ -203,69 +224,49 @@
     </div>
   </section>
 
-  <!-- Footer -->
-  <footer class="py-8 text-center text-xs text-gray-400 border-t border-gray-100">
-    <p>© 2026 Sarad & Namuna. Created with love.</p>
+  <footer class="py-10 text-center text-xs text-gray-500 border-t border-gray-200 bg-champagne/20">
+    <p class="font-serif tracking-widest uppercase mb-1">Sarad & Namuna</p>
+    <p>© 2026. Created with love.</p>
   </footer>
 
-  <!-- Scripts -->
   <script>
-    // --- 1. SLIDESHOW CONFIGURATION ---
     const images = [
-      'img/photo1.jpg',
-      'img/photo2.jpg',
-      'img/photo3.jpg',
-      'img/photo4.jpg',
-      'img/photo5.jpg',
-      'img/photo6.jpg',
-      'img/photo7.jpg',
-      'img/photo8.jpg',
-      'img/photo9.jpg',
-      'img/photo10.jpg',
-      'img/photo11.jpg',
-      'img/photo12.jpg',
-      'img/photo13.jpg',
-      'img/photo14.jpg'
+      'img/photo1.jpg', 'img/photo2.jpg', 'img/photo3.jpg', 'img/photo4.jpg', 
+      'img/photo5.jpg', 'img/photo6.jpg', 'img/photo7.jpg', 'img/photo8.jpg', 
+      'img/photo9.jpg', 'img/photo10.jpg', 'img/photo11.jpg', 'img/photo12.jpg', 
+      'img/photo13.jpg', 'img/photo14.jpg'
     ];
 
     const slideshowContainer = document.getElementById('slideshow-container');
     const createdSlides = [];
 
-    // Preload & Build Slides dynamically
     images.forEach((src, index) => {
       const slide = document.createElement('div');
-      slide.className = `hero-slide absolute inset-0 ${index === 0 ? 'opacity-100' : 'opacity-0'}`;
+      slide.className = `hero-slide absolute inset-0 ${index === 0 ? 'opacity-100 active-zoom' : 'opacity-0'}`;
       slide.style.backgroundImage = `url('${src}')`;
       slideshowContainer.appendChild(slide);
       createdSlides.push(slide);
 
-      // Force-preload each image so it displays immediately without blank/white flashes
       const img = new Image();
       img.src = src;
     });
 
     let currentSlide = 0;
-
     setInterval(() => {
       if (createdSlides.length <= 1) return;
-      
       const previousSlide = createdSlides[currentSlide];
-      currentSlide = (currentSlide + 1) % createdSlides.length;
-      const nextSlide = createdSlides[currentSlide];
-
-      previousSlide.classList.remove('opacity-100');
+      previousSlide.classList.remove('opacity-100', 'active-zoom');
       previousSlide.classList.add('opacity-0');
       
+      currentSlide = (currentSlide + 1) % createdSlides.length;
+      const nextSlide = createdSlides[currentSlide];
       nextSlide.classList.remove('opacity-0');
-      nextSlide.classList.add('opacity-100');
+      nextSlide.classList.add('opacity-100', 'active-zoom');
     }, 5000);
 
-    // --- 2. GOOGLE SHEETS SCRIPT URL ---
     const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwQzmeNwUi7mCJpiqUYL1Chwsa1c3Le5SKGj2H46wU5ZyTCL0rLF59hmE2dQY7poL_v/exec";
 
-    // --- 3. COUNTDOWN TIMER LOGIC ---
     const targetDate = new Date("October 23, 2026 13:00:00").getTime();
-    
     function updateTimer() {
       const now = new Date().getTime();
       const difference = targetDate - now;
@@ -282,11 +283,9 @@
         document.getElementById("seconds").innerText = "00";
       }
     }
-    
     setInterval(updateTimer, 1000);
     updateTimer();
 
-    // --- 4. RSVP FORM SUBMISSION ---
     const form = document.getElementById("rsvpForm");
     const submitBtn = document.getElementById("submitBtn");
     const statusMsg = document.getElementById("statusMessage");
