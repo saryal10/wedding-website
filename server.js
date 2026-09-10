@@ -6,8 +6,14 @@ const path = require('path');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-app.use(express.json());
-app.use(fileUpload());
+// Increased limits to successfully handle batch uploads of multiple high-res photos/videos
+app.use(express.json({ limit: '50mb' }));
+app.use(express.urlencoded({ limit: '50mb', extended: true }));
+app.use(fileUpload({
+    limits: { fileSize: 50 * 1024 * 1024 }, // 50MB per file limit
+    abortOnLimit: true
+}));
+
 app.use(express.static(path.join(__dirname)));
 
 const DATA_FILE = path.join(__dirname, 'gallery-data.json');
